@@ -1,20 +1,12 @@
 #include <stdio.h>
-#include "count_func.h"
+#include "get_file.h"
+#include "count_elements.h"
 
 int main(void) {
-    FILE * file;
-    char filename[50];
-
-    printf("Enter filename: ");
-    scanf("%s", filename);
-
-    file = fopen(filename, "r");
+    FILE * file = getFile();
     if (file == NULL) {
-        printf("Error file!\n");
-        return 1;
+        return -1;
     }
-
-    printf("Answer: %d", countWords(file));
-
+    printf("Count of numbers between 1 to 5 is %d", countElements(file));
     return 0;
 }
