@@ -21,7 +21,7 @@ int getCountMaxLocal(FILE *file) {
 
     while (fscanf(file, "%d", &current_n) == 1) {
         if (last == current_n) {
-            length += 1;
+            if (length) length++;
         } else {
             if (last > current_n) {
                 maxLen = max(maxLen, length);
