@@ -7,6 +7,6 @@ int main(void) {
     if (file == NULL) {
         return -1;
     }
-    printf("Count of numbers between 1 to 5 is %lf", countElements(file));
+    printf("Count of numbers between 1 to 5 is %.0lf", countElements(file));
     return 0;
 }
