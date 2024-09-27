@@ -12,7 +12,7 @@ double detectNumber(double number, double count) {
 }
 
 double summa(double info_count) {
-    int count = 0.;
+    int count = 0;
 
     for (int i = 0; i < 5; i++) {
         count += fmod(info_count, 10.);
