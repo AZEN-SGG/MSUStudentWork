@@ -1,19 +1,14 @@
 #include <stdio.h>
 #include "tools.h"
-#include "equal.h"
+#include "replace_local_min.h"
 
 int main(void) {
     double * numbers;
     FILE * file = getFile();
-    if (file == NULL) return 1;
 
     numbers = getList(file);
     if (numbers == NULL) return 1;
 
-    if (equal(numbers)) printf("They are different");
-    else printf("They are the same");
-
+    printf("Count elements in file: %d", replaceLocalMin(numbers));
     free(numbers);
-
-    return 0;
 }
