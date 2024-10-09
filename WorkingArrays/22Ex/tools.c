@@ -22,7 +22,8 @@ FILE * getFile(void)
     }
 }
 
-double * getList(FILE * file) {
+double * getList(FILE * file)
+{
     double current;
     int i, length = 2;
     double * numbers = NULL;
