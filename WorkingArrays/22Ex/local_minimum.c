@@ -26,9 +26,9 @@ int searching_loc_min(double * numbers)
 
 
     for (unsigned i = 2; i < length; ++i) {
-        if (numbers[i] == numbers[i - 1]) {
+        if (fabs(numbers[i] - numbers[i - 1]) < exp) {
             if (curr_len) ++curr_len;
-        } else if (numbers[i] > numbers[i - 1]) {
+        } else if ((numbers[i] - numbers[i - 1]) > exp) {
             if (curr_len) {
                 // It is important to remember that numbers[0] is equal to the length of the list!
                 start_end[0 + (min_num * 2)] = (i - curr_len), start_end[1 + (min_num * 2)] = i - 1;
