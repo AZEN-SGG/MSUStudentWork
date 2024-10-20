@@ -10,6 +10,6 @@ int main(void) {
     numbers = getList(file);
     if (numbers == NULL) return 1;
 
-    printf("Count elements in file: %d", replaceLocalMin(numbers));
+    printf("Count elements in file: %d", findAndReplaceLocalMin(numbers));
     free(numbers);
 }
