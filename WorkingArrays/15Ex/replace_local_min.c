@@ -1,63 +1,81 @@
 #include "replace_local_min.h"
 
+unsigned find_replace_local_min(double * array, int length) {
+	int start_length_next_min[3];
+	unsigned deleted = 0, have_min = 0;
+	double min_element = min(array, length);
 
-int findAndReplaceLocalMin(double * numbers) {
-    double min_element = min(numbers);
-    int length = (int)numbers[0];
-    unsigned start_end_minimum_index[3] = {0};
-    do {
-        unsigned start_index = (start_end_minimum_index[2]) ? start_end_minimum_index[2] : 1;
-        findLocalMinimum(&numbers[start_index], length - start_index, start_end_minimum_index);
-        replaceLocalMinimum(&numbers[start_index], start_end_minimum_index, min_element);
-    } while start_end_minimum_index[0];
+	do {
+		unsigned changed_len;
+		findLocalMin(&array[have_min + deleted], length - (have_min + deleted), start_length_next_min);
+		replace(&array[have_min + deleted], length - (have_min + deleted), min_element, start_length_next_min[0], start_length_next_min[1]);
 
-    for (int i = 0; i < 3; ++i) {
-        printf("%d\n", start_end_minimum_index[i]);
-    }
+		deleted += have_min;
+		changed_len = start_length_next_min[1] - 1;
+		length -= changed_len;
+		have_min = (start_length_next_min[2]) ? start_length_next_min[2] - changed_len : 0;
+	} while (have_min);
 
-    return 0;
+	return unbs(length);
 }
 
+double min(double * array, int length) {
+	unsigned min_index = 0;
 
-double min(double * numbers) {
-    unsigned index_min_el = 0;
-    for (int i = 1; i < (int)numbers[0]; ++i) {
-        if ((numbers[index_min_el] - numbers[i]) > exp || !index_min_el) index_min_el = i;
-    }
-    return numbers[index_min_el];
+	for (int i = 1; i < length; ++i) if (array[min_index] > array[i]) min_index = i;
+
+	return array[min_index];
 }
 
+unsigned findLocalMin(double * num_array, int length, int * start_length_local_min) {
+	unsigned index_next_min = 0;
+	int len_local_min = 1;
+	bool found = false;
 
-void findLocalMinimum(double * numbers, unsigned length, unsigned *start_end_minimum_index) {
-    unsigned local_length = 1;
+	start_length_local_min[0] = 0, start_length_local_min[1] = 0, start_length_local_min[2] = 0;
 
-    for (unsigned i = 1; i < length; ++i) {
-        if (isEqual(numbers[i - 1], numbers[i])) {
-            if (local_length) ++local_length;
-        } else if ((numbers[i - 1] - numbers[i]) < exp) {
-            if (local_length) {
-                start_end_minimum_index[0] = i - local_length, start_end_minimum_index[1] = i - 1;
-                local_length = 0;
-            }
-        } else {
-            if (start_end_minimum_index[1]) {
-                start_end_minimum_index[2] = i;
-            }
-        }
-    }
+	for (int i = 1; i < length; ++i) {
+		if (len_local_min) {
+			if (isEqual(num_array[i - 1], num_array[i])) {
+				len_local_min++;
+			} else if ((num_array[i] - num_array[i - 1]) < exp) {
+				len_local_min = 1;
+			} else {
+				start_length_local_min[0] = i - len_local_min;
+				start_length_local_min[1] = len_local_min;
+
+				found = true;
+                		len_local_min = 0;
+			}
+		} else {
+			if ((num_array[i] - num_array[i - 1]) < -exp) {
+				if (found) {
+					start_length_local_min[2] = i;
+					index_next_min = i;
+					break;
+				}
+				len_local_min = 1;
+			}
+		}
+	}
+
+	if (len_local_min && !found) start_length_local_min[0] = length - len_local_min, start_length_local_min[1] = len_local_min;
+	return index_next_min;
 }
-
 
 bool isEqual(double first, double second) {
-    return (fabs(first - second) < exp);
+	if (fabs(first - second) < exp) return true;
+	return false;
 }
 
+void replace(double * array, int length, double wherewith, int from, int len_replaceable) {
+	array[from] = wherewith;
 
-void replaceLocalMinimum(double * numbers, unsigned * start_end_minimum_index, double minimum) {
-    unsigned start_i = start_end_minimum_index[0], end_i = start_end_minimum_index[1]
-    numbers[start_i] = minimum;
-
-    for (int i = 0)
+	for (int i = from + len_replaceable; i < length ; ++i) {
+		array[i - len_replaceable + 1] = array[i];
+	}
 }
 
-
+unsigned unbs(int number) {
+	return (unsigned int)((number < 0) ? -number : number);
+}

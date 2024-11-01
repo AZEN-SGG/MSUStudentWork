@@ -6,5 +6,6 @@
 
 FILE * getFile(void);
 double * getList(FILE * file);
+void outputArray(double * array, int length);
 
 #endif

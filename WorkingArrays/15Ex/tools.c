@@ -48,3 +48,10 @@ double * getList(FILE * file) {
     numbers[0] = i;
     return numbers;
 }
+
+void outputArray(double * array, int length) {
+    for (int i = 0; i < length; ++i) {
+        printf("%.1lf\n", array[i]);
+    }
+    printf("\n");
+}
