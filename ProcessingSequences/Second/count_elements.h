@@ -6,8 +6,8 @@
 
 #define INACCURACY 1.e-10
 
-double detectNumber(double number, double count);
-double summa(double count);
-double countElements(FILE * file);
+int detectNumber(double number, int count);
+int summa(int count);
+int countElements(FILE * file);
 
 #endif
