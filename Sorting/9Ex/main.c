@@ -3,7 +3,7 @@
 #include "tools.h"
 #include <stdlib.h>
 
-int main()  {	
+int main(void)  {	
 	FILE * file = getFile();
 	double * array;
 	int length;
@@ -11,7 +11,7 @@ int main()  {
 	if (file == NULL) return -1;
 	array = getArray(file);
 	if (array == NULL) return -2;
-	length = (int)array[0];
+	length = (int)array[0] - 1;
 
 	array = &array[1];
 	printArray(array, length);

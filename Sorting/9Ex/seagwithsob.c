@@ -1,8 +1,9 @@
 #include "seagwithsob.h"
 
 void sort(double * array, int length) {
-       double zero[length];
-       double unit[length];
+       double * zero = (double *)malloc(length * sizeof(double)); 
+       double * unit = (double *)malloc(length * sizeof(double)); 
+
        int index, timer = -clock();
        
        for (int j = 0; j < 63; ++j) {

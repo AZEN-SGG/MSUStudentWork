@@ -1,6 +1,6 @@
 all: main.o seagwithsob.o tools.o
-	gcc main.o seagwithsob.o tools.o && del *.o
-	a.exe
+	gcc main.o seagwithsob.o tools.o && rm *.o
+	./a.out
 
 main.o: main.c
 	gcc -c main.c

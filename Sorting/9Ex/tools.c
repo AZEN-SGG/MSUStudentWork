@@ -1,10 +1,10 @@
 #include "tools.h"
 
-FILE * getFile() {
+FILE * getFile(void) {
 	char filename[50];
 
 	printf("Enter file name: ");
-	if (scanf("%s", &filename) == 1) {
+	if (scanf("%s", filename) == 1) {
 		FILE * file = fopen(filename, "r");
 		if (file == NULL) {
 			printf("Error file!\n)");
@@ -19,7 +19,6 @@ FILE * getFile() {
 }
 
 double * getArray(FILE * file) {
-	char filename[50];
 	int i, size = 2;
 	double * array = NULL;
 	double current;
@@ -53,7 +52,7 @@ bool orderliness(double * array, int length) {
 	return true;
 }
 
-void randomArray() {
+void randomArray(void) {
 	int length;
 
 	printf("Enter length of array: ");
