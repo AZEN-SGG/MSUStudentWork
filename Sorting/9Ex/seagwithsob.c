@@ -3,7 +3,7 @@
 void sort(double * array, int length) {
        double zero[length];
        double unit[length];
-       int index;
+       int index, timer = -clock();
        
        for (int j = 0; j < 63; ++j) {
 	       index = 0;	
@@ -25,6 +25,9 @@ void sort(double * array, int length) {
 
        for (int i = 0; i < index; ++i) array[i] = unit[index - i - 1];
        for (int i = index; i < length; ++i) array[i] = zero[i - index];
+	
+       timer += clock();
+       printf("Required time for sorting is %lf seconds\n", (double)timer / CLOCKS_PER_SEC);
 }
 
 void rewrite(double * array, double * zero, int len_zero, double * unit, int len_unit) {
