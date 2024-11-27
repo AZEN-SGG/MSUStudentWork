@@ -64,6 +64,7 @@ void randomArray(void) {
 		sort(array, length);
 		printf("\n");
 		printArray(array, length);
+		free(array);
 	} else {
 		printf("Length not entered!\n");
 	}

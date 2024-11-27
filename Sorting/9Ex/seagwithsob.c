@@ -28,6 +28,9 @@ void sort(double * array, int length) {
        for (int i = index; i < length; ++i) array[i] = zero[i - index];
 	
        timer += clock();
+       free(zero);
+       free(unit);
+
        printf("Required time for sorting is %lf seconds\n", (double)timer / CLOCKS_PER_SEC);
 }
 
