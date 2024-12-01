@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "seagwithsob.h"
+#include "quicksort.h"
 #include "tools.h"
 #include "stdlib.h"
 
@@ -16,12 +16,12 @@ int main(void)  {
 
 	orig_arr = array;
 	array = &array[1];
-	testSort(array, length, sort);
+	testSort(array, length, quicksort);
 
 	free(orig_arr);
 
 	printf("\n");
-	testSortRandomArray(sort);
+	testSortRandomArray(quicksort);
 
 	return 0;
 }

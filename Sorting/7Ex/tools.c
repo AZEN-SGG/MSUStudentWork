@@ -106,5 +106,3 @@ bool isSorted(double * array, int length) {
 bool more(double a, double b) {
 	return (a - b) > exp;
 }
-
-
