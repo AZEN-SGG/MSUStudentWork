@@ -21,6 +21,32 @@ void quicksort(double * array, int length) {
 		}
 	} while (si < ei);
 
-	if (si > 1) quicksort(array, si);
-	if (ei < length - 2) quicksort(&array[head + 1], length - ei - 1);
+	if (si > 1) {
+        if (si < 7) bubble(array, si);
+        else quicksort(array, si);
+    }
+	if (ei < length - 2) {
+        if (si < 7) bubble(&array[head + 1], length - ei - 1);
+        else quicksort(&array[head + 1], length - ei - 1);
+    }
+}
+
+void bubble(double *arr, int length) {
+    double temp; 
+    bool swapped;
+    
+    for (int i = 0; i < length; ++i) {
+        swapped = false;
+        
+        for (int j = 0; j < length - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                swapped = true;
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+        
+        if (!swapped) break;
+    }
 }

@@ -29,8 +29,8 @@ CFLAGS = -mfpmath=sse \
 		 -c
 
 
-all: main.o quicksort.o seagwithsob.o tools.o
-	gcc main.o quicksort.o seagwithsob.o tools.o -lssp && del *.o 
+all: main.o quicksort.o tools.o
+	gcc main.o quicksort.o tools.o -lssp && del *.o 
 	a.exe
 
 main.o: main.c
@@ -38,9 +38,6 @@ main.o: main.c
 
 quicksort.o: quicksort.c
 	gcc $(CFLAGS) quicksort.c
-	
-seagwithsob.o: seagwithsob.c
-	gcc $(CFLAGS) seagwithsob.c
 
 tools.o: tools.c
 	gcc $(CFLAGS) tools.c

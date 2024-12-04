@@ -66,33 +66,6 @@ void testSortRandomArray(sort_op op) {
 	}
 }
 
-void compareSorts(sort_op first, sort_op second) {
-    int length;
-
-	printf("Enter length of array: ");
-	if (scanf("%d", &length) == 1) {
-		double * first_arr = (double *)malloc(length * sizeof(double));
-        double * second_arr = (double *)malloc(length * sizeof(double));
-        int first_timer, second_timer, difference;
-        
-        
-		generate(first_arr, length);
-		copy(first_arr, second_arr, length);
-        
-        first_timer = testSort(first_arr, length, first);
-        printf("\n");
-        second_timer = testSort(second_arr, length, second);
-        
-        difference = abs(first_timer - second_timer);
-        printf(first_timer < second_timer ? "first sort was faster on %lf sec.\n" : "second sort was faster on %lf sec.\n", (double)difference / CLOCKS_PER_SEC);
-        
-		free(first_arr);
-        free(second_arr);
-	} else {
-		printf("Length not entered!\n");
-	}
-}
-
 void generate(double * array, int length) {
 	srand(time(NULL));
 
@@ -101,11 +74,7 @@ void generate(double * array, int length) {
 	}
 }
 
-void copy(double * from, double * to, int length) {
-    for (int i = 0; i < length; ++i) to[i] = from[i];
-}
-
-int testSort(double * array, int length, sort_op op) {
+void testSort(double * array, int length, sort_op op) {
 	int timer;
 
 	printArray(array, length);
@@ -117,8 +86,6 @@ int testSort(double * array, int length, sort_op op) {
     printArray(array, length);
 	if (isSorted(array, length)) printf("The array was sorted for %lf sec.\n", (double)timer / CLOCKS_PER_SEC);
 	else printf("The array was not sorted!\n");
-    
-    return timer;
 }
 
 void printArray(double * array, int length) {
@@ -138,17 +105,4 @@ bool isSorted(double * array, int length) {
 
 bool more(double a, double b) {
 	return (a - b) > exp;
-}
-
-int compare(const void * ufirst, const void * usecond) {
-	double first = (double)ufirst;
-	double second = (double)usecond;
-
-	if ((first - second) > eps) {
-		return 1;
-	} else ((second - first) > eps) {
-		return -1;
-	} else {
-		return 0;
-	}
 }
