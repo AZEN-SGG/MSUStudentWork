@@ -12,7 +12,6 @@ CFLAGS = -mfpmath=sse \
          -Wpointer-arith \
          -Wformat-security \
          -Wmissing-format-attribute \
-         -Wformat=1 \
          -Wwrite-strings \
          -Wcast-align \
          -Wno-long-long \
@@ -24,20 +23,19 @@ CFLAGS = -mfpmath=sse \
          -Wdeclaration-after-statement \
          -Wbad-function-cast \
          -Wnested-externs \
-		 -O3 \
-		 -D_DEBUG -g \
-		 -c
-
+         -O3 \
+         -D_DEBUG -g \
+         -c
 
 all: main.o grouping.o tools.o
-	gcc main.o grouping.o tools.o -lssp && del *.o 
-	a.exe
+	gcc main.o grouping.o tools.o -o a.out && rm -f *.o
+	./a.out
 
 main.o: main.c
-	gcc $(CFLAGS) main.c
+	gcc $(CFLAGS) main.c -o main.o
 
 grouping.o: grouping.c
-	gcc $(CFLAGS) grouping.c
+	gcc $(CFLAGS) grouping.c -o grouping.o
 
 tools.o: tools.c
-	gcc $(CFLAGS) tools.c
+	gcc $(CFLAGS) tools.c -o tools.o

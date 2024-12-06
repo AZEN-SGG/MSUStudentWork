@@ -141,12 +141,12 @@ bool more(double a, double b) {
 }
 
 int compare(const void * ufirst, const void * usecond) {
-	double first = (double)ufirst;
-	double second = (double)usecond;
+	double first = *(double *)ufirst;
+	double second = *(double *)usecond;
 
-	if ((first - second) > eps) {
+	if ((first - second) > exp) {
 		return 1;
-	} else ((second - first) > eps) {
+	} else if ((second - first) > exp) {
 		return -1;
 	} else {
 		return 0;
