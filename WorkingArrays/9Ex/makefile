@@ -28,8 +28,8 @@ CFLAGS = -mfpmath=sse \
          -c
 
 all: main.o grouping.o tools.o
-	gcc main.o grouping.o tools.o -o a.out && rm -f *.o
-	./a.out
+	gcc main.o grouping.o tools.o -lssp && del *.o
+	a.exe
 
 main.o: main.c
 	gcc $(CFLAGS) main.c -o main.o
