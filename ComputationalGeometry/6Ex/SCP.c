@@ -56,8 +56,17 @@ circle centermass(point p1, point p2) {
 circle byThreePoints(point * warp) {
 	point center;
 	double radius, x, y;
-	double ang_a = straightAngle(warp[1], warp[0]);
-	double ang_b = straightAngle(warp[2], warp[1]);
+	double ang_a;
+	double ang_b;
+	
+	if (fabs(warp[1].x - warp[0].x) < exp || fabs(warp[2].x - warp[1].x) < exp) return (circle){.center=(point){0, 0}, .radius=-1};
+
+	ang_a = straightAngle(warp[1], warp[0]);
+	ang_b = straightAngle(warp[2], warp[1]);
+
+	if (fabs(ang_b) < exp || fabs(ang_b - ang_a) < exp) {
+		return (circle){.center=(point){0, 0}, .radius=-1};
+	}
 
 	x = (ang_a * ang_b * (warp[0].y - warp[2].y) + ang_b * (warp[0].x + warp[1].x) - ang_a * (warp[1].x + warp[2].x)) / (2 * (ang_b - ang_a));
 	y = (-(1/ang_b) * (x - (warp[1].x + warp[2].x) / 2) + (warp[1].y + warp[2].y) / 2);

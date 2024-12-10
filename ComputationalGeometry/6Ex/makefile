@@ -28,8 +28,8 @@ CFLAGS = -mfpmath=sse \
 		 -D_DEBUG -g \
 		 -c
 
-all: main.o SCP.o tools.o
-	gcc main.o SCP.o tools.o -lssp && del *.o
+all: main.o SCP.o hope.o tools.o
+	gcc main.o SCP.o hope.o tools.o -lssp && del *.o
 	a.exe
 
 main.o: main.c
@@ -37,6 +37,9 @@ main.o: main.c
 
 SCP.o: SCP.c
 	gcc $(CFLAGS) SCP.c
+
+hope.o: hope.c
+	gcc $(CFLAGS) hope.c
 
 tools.o: tools.c
 	gcc $(CFLAGS) tools.c
