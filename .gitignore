@@ -3,3 +3,6 @@
 *~
 *.out
 .*.sw*
+*.zip
+*.rar
+*output*
