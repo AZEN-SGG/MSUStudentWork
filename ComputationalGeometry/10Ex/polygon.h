@@ -8,6 +8,17 @@
 #include <math.h>
 #include "types.h"
 
+#define DELFUNC(NAME, TYPE) \
+	void del##NAME(TYPE * array, int index) { \
+		DEL(array->arr, index, array->len) \
+		array -> len--; \
+	}
+
+#define DEL(DATA, INDEX, LEN) \
+	for (int i = INDEX; i < (LEN) - 1; ++i) { \
+		(DATA)[i] = (DATA)[i + 1]; \
+	}
+
 line getLine(point pt1, point pt2);
 lines getLines(points pts);
 points getVectors(points pts);

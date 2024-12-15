@@ -9,16 +9,7 @@
 		int len;\
 	} NAME
 
-#define DELFUNC(NAME, TYPE) \
-	void del##NAME(TYPE * array, int index) { \
-		DEL(array->arr, index, array->len) \
-		array -> len--; \
-	}
 
-#define DEL(DATA, INDEX, LEN) \
-	for (int i = INDEX; i < (LEN) - 1; ++i) { \
-		(DATA)[i] = (DATA)[i + 1]; \
-	}
 	
 typedef struct {
 	double x;

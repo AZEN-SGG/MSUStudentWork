@@ -64,6 +64,8 @@ void repairPolygon(polygon * plgn) {
 			delLine(&lns, i--);
 		}
 	}
+
+	free(lns.arr);
 }       
 
 bool isNull(point vector) {
@@ -81,19 +83,6 @@ bool isCollinear(point fvec, point svec) {
 DELFUNC(Vector, points)
 
 DELFUNC(Line, lines)
-
-//void delVector(points * vectors, int index) {
-//	DEL(vectors -> arr, index, vectors -> len)
-//	vectors -> len--;
-//}
-//
-//void delLine(lines * lns, int index) {
-//	for (int i = index + 1; i < lns -> len; ++i) {
-//		lns -> arr[i] = lns -> arr[i - 1];
-//	}
-//	
-//	lns -> len--;
-//}
 
 polygon getPolygon(polygon * plgn, double shift) {
 	points vectors = getVectors(plgn -> pts);
