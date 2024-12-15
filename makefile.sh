@@ -1,6 +1,6 @@
 #!/bin/bash
 
-find . -type f -name "Makefile" | while read -r file; do
+find . -type f -name "makefile" | while read -r file; do
     echo "Processing file: $file"
 
     tmp_file=$(mktemp)
