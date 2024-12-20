@@ -85,6 +85,7 @@ double distance(point p1, point p2) {
 }
 
 void printCircle(circle crcl) {
-	printf("Center of circle at point (%.2lf, %.2lf)\nRadius is %.2lf\n", crcl.center.x, crcl.center.y, crcl.radius);
+	printf("(x - %.4lf)^2 + (y - %.4lf)^2 = %.4lf^2\n", crcl.center.x, crcl.center.y, crcl.radius);
+	// printf("Center of circle at point (%.2lf, %.2lf)\nRadius is %.2lf\n", crcl.center.x, crcl.center.y, crcl.radius);
 }
 
