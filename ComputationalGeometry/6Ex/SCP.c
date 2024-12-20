@@ -14,7 +14,7 @@ circle MEC(point * I, int ilen, point * N, int nlen) {
 }
 
 bool belongs(circle crcl, point p) {
-	if (powd(p.x - crcl.center.x) + powd(p.y - crcl.center.y) - powd(crcl.radius) <= exp) return true;
+	if (powd(p.x - crcl.center.x) + powd(p.y - crcl.center.y) <= exp + powd(crcl.radius)) return true;
 	return false;
 }
 

@@ -3,30 +3,24 @@
 #include "hope.h"
 
 int main(void) {
-	points * pts;
+	points pts;
 	point N[3];
 	circle crcl;
 	
-	pts = getPoints(file);
-	if (pts == NULL) return -1;
-	
-	/*
-	printf("\nPoints:\n");	
-	for (int i = 0; i < ps.length; ++i) printf("(%.2lf, %.2lf) ", ps.array[i].x, ps.array[i].y);
-	printf("\n\n");
-	*/
+	pts = getPoints();
+	if (pts.array == NULL) return -1;
 
-	printPoints(*pts);
+	printPoints(pts);
 
 	printf("\nFast algorithm:\n");
-	crcl = MEC(ps->array, ps->length, N, 0);
+	crcl = MEC(pts.array, pts.length, N, 0);
 	printCircle(crcl);
 	
 	printf("\nReliable algorithm:\n");
-	crcl = hope(ps->array, ps->length);
+	crcl = hope(pts.array, pts.length);
 	printCircle(crcl);
 
-	free(ps->array);	
+	free(pts.array);	
 
 	return 0;
 }
