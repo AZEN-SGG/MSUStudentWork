@@ -24,21 +24,23 @@ double powd(double number) {
 
 circle primitive(point * N, int nlen) {
 	if (nlen == 3) {
-		point temp;
-		circle crcl;
+		for (int i = 0; i < 3; ++i) {
+            for (int j = i + 1; j < 3; ++j) {
+                circle crcl = centermass(N[i], N[j]);
+                bool all_inside = true;
 
-		for (int i = 0; i < nlen; ++i) {
-			temp = N[2];
-			N[2] = N[i];
-			N[i] = temp;
-
-			crcl = centermass(N[0], N[1]);
-			if (belongs(crcl, N[2])) return crcl;
-
-			N[i] = N[2];
-			N[2] = temp;
-		}
-
+                for (int k = 0; k < 3; ++k) {
+                    if (!belongs(crcl, N[k])) {
+                        all_inside = false;
+                        break;
+                    }
+                }
+                if (all_inside) {
+                    return crcl;
+                }
+            }
+        }
+		
 		return byThreePoints(N);
 	} else if (nlen == 2) {
 		return centermass(N[0], N[1]);
@@ -54,26 +56,26 @@ circle centermass(point p1, point p2) {
 }
 
 circle byThreePoints(point * warp) {
-	point center;
-	double radius, x, y;
-	double ang_a;
-	double ang_b;
-	
-	if (fabs(warp[1].x - warp[0].x) < exp || fabs(warp[2].x - warp[1].x) < exp) return (circle){.center=(point){0, 0}, .radius=-1};
+	point center = getCenter(warp);
+	double radius;
 
-	ang_a = straightAngle(warp[1], warp[0]);
-	ang_b = straightAngle(warp[2], warp[1]);
-
-	if (fabs(ang_b) < exp || fabs(ang_b - ang_a) < exp) {
-		return (circle){.center=(point){0, 0}, .radius=-1};
-	}
-
-	x = (ang_a * ang_b * (warp[0].y - warp[2].y) + ang_b * (warp[0].x + warp[1].x) - ang_a * (warp[1].x + warp[2].x)) / (2 * (ang_b - ang_a));
-	y = (-(1/ang_b) * (x - (warp[1].x + warp[2].x) / 2) + (warp[1].y + warp[2].y) / 2);
-	center = (point){x, y};
-
+	center.x += warp[0].x, center.y += warp[0].y;
 	radius = distance(center, warp[0]);
+	
 	return (circle){center, radius};
+}
+
+point getCenter(point * warp) {
+	double sqrt1, sqrt2, scalar;
+	point vec1 = (point){warp[1].x - warp[0].x, warp[1].y - warp[0].y};
+	point vec2 = (point){warp[2].x - warp[0].x, warp[2].y - warp[0].y};
+	
+	sqrt1 = vec1.x * vec1.x + vec1.y * vec1.y;
+	sqrt2 = vec2.x * vec2.x + vec2.y * vec2.y;
+	scalar = (vec1.x * vec2.y - vec2.x * vec1.y) * 2;
+
+	return (point){.x=((vec2.y * sqrt1 - vec1.y * sqrt2) / scalar), \
+			.y=((vec1.x * sqrt2 - vec2.x * sqrt1) / scalar)};	
 }
 
 double straightAngle(point p1, point p2) {
@@ -85,7 +87,14 @@ double distance(point p1, point p2) {
 }
 
 void printCircle(circle crcl) {
-	printf("(x - %.4lf)^2 + (y - %.4lf)^2 = %.4lf^2\n", crcl.center.x, crcl.center.y, crcl.radius);
-	// printf("Center of circle at point (%.2lf, %.2lf)\nRadius is %.2lf\n", crcl.center.x, crcl.center.y, crcl.radius);
+	printf("(x - %.4lf)^2 + (y - %.4lf)^2 = %.4lf^2\n\n", crcl.center.x, crcl.center.y, crcl.radius);
+	printf("Center of circle at point (%.2lf, %.2lf)\nRadius is %.2lf\n", crcl.center.x, crcl.center.y, crcl.radius);
 }
 
+int isCover(circle crcl, points pts) {
+	for (int i = 0; i < pts.length; ++i) {
+		if (!belongs(crcl, pts.array[i])) return i;
+	}
+	
+	return pts.length;
+}
