@@ -45,7 +45,6 @@ jobs:
             exit 1
           fi
 
-          # Проверяем, что есть папка t/ с тестовыми файлами
           if [ ! -d "t" ]; then
             echo "::error::Directory 't' with test files not found"
             exit 1
@@ -55,19 +54,16 @@ jobs:
             echo "------------------------------------"
             echo "Testing with file: $file"
 
-            # Способ 1. Передавать через временный файл
-            # echo "0" > test_input.txt
-            # echo "$file" >> test_input.txt
-            # echo "=== Test input ==="
-            # cat test_input.txt
-            # echo "=================="
-            # ./a.out < test_input.txt
-            
-            # Способ 2. Через printf (важно экранировать %s и $file)
-            printf "0\n%s\n" "$file" | ./a.out
-            # Или можно так (если хотите увидеть ввод на экране лога):
-            echo -e "0\n$file\n" | ./a.out
+            # Создаём временный файл с "0" и именем тестового файла:
+            echo "0" > test_input.txt
+            echo "$file" >> test_input.txt
 
+            echo "==== DEBUG test_input.txt ===="
+            cat -A test_input.txt
+            echo "=============================="
+
+            # Теперь фидим это stdin
+            ./a.out < test_input.txt
             status=$?
             echo "Exit code: $status"
 
