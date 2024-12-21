@@ -1,0 +1,44 @@
+name: Compile and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup MinGW and Make
+      run: |
+        choco install mingw -y
+        choco install make -y
+        refreshenv
+
+    - name: Compile and Run Tests
+      run: |
+        cd ComputationalGeometry/6Ex
+        make
+        if [ $? -ne 0 ]; then
+          echo "::error::Build failed"
+          exit 1
+        fi
+
+        # Найти все файлы в папке `t` и передать их в программу
+        for %f in (t\*) do (
+          echo "Testing with file: %f"
+          echo 0 > input.txt
+          echo %f >> input.txt
+          a.exe < input.txt
+          if %errorlevel% neq 0 (
+            echo "::error::Test failed for %f"
+            exit 1
+          )
+        )
