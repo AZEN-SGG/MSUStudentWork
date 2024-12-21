@@ -20,9 +20,18 @@ jobs:
       run: |
         chmod +x makefile.sh
 
-    - name: Compile using makefile.sh
+    - name: Run `makefile.sh` to prepare Makefile
       run: |
         ./makefile.sh
+        if [ $? -ne 0 ]; then
+          echo "::error::makefile.sh failed"
+          exit 1
+        fi
+
+    - name: Compile using Makefile
+      run: |
+        cd ComputationalGeometry/6Ex
+        make
         if [ $? -ne 0 ]; then
           echo "::error::Compilation failed"
           exit 1
@@ -31,6 +40,11 @@ jobs:
     - name: Run Tests
       run: |
         cd ComputationalGeometry/6Ex
+        if [ ! -f "./a.out" ]; then
+          echo "::error::Executable not found: a.out"
+          exit 1
+        fi
+
         for file in t/*; do
           echo "Testing with file: $file"
 
