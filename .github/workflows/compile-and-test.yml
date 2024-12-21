@@ -49,11 +49,7 @@ jobs:
           echo "Testing with file: $file"
 
           # Создаём файл ввода
-          echo "0" > input.txt
-          echo "$file" >> input.txt
-
-          # Запускаем программу
-          ./a.out < input.txt
+          (echo "0"; echo "$file") | ./a.out
           if [ $? -ne 0 ]; then
             echo "::error::Test failed for $file"
             exit 1
