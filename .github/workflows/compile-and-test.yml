@@ -13,64 +13,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Make `makefile.sh` executable
-        run: |
-          chmod +x makefile.sh
+    - name: Make `makefile.sh` executable
+      run: chmod +x makefile.sh
 
-      - name: Run `makefile.sh` to prepare Makefile
-        run: |
-          ./makefile.sh
-          if [ $? -ne 0 ]; then
-            echo "::error::makefile.sh failed"
+    - name: Run `makefile.sh` to prepare Makefile
+      run: |
+        ./makefile.sh
+        if [ $? -ne 0 ]; then
+          echo "::error::makefile.sh failed"
+          exit 1
+        fi
+
+    - name: Compile using Makefile
+      run: |
+        cd ComputationalGeometry/6Ex
+        make
+        if [ $? -ne 0 ]; then
+          echo "::error::Compilation failed"
+          exit 1
+        fi
+
+    - name: Run Tests
+      run: |
+        cd ComputationalGeometry/6Ex
+        if [ ! -f "./a.out" ]; then
+          echo "::error::Executable not found: a.out"
+          exit 1
+        fi
+
+        # Проверяем, что папка с тестами есть:
+        if [ ! -d "t" ]; then
+          echo "::error::No directory 't' with test files"
+          exit 1
+        fi
+
+        for f in t/*; do
+          echo "======================="
+          echo "Testing with file: $f"
+
+          # Создаём файл с вводом
+          echo "0" > input.txt
+          echo "$f" >> input.txt
+
+          echo "DEBUG: cat -A input.txt"
+          cat -A input.txt  # Посмотреть, нет ли там ^M
+
+          ./a.out < input.txt
+          status=$?
+
+          if [ $status -ne 0 ]; then
+            echo "::error::Test failed for $f"
             exit 1
           fi
-
-      - name: Compile using Makefile
-        run: |
-          cd ComputationalGeometry/6Ex
-          make
-          if [ $? -ne 0 ]; then
-            echo "::error::Compilation failed"
-            exit 1
-          fi
-
-      - name: Run Tests
-        run: |
-          cd ComputationalGeometry/6Ex
-          if [ ! -f "./a.out" ]; then
-            echo "::error::Executable not found: a.out"
-            exit 1
-          fi
-
-          if [ ! -d "t" ]; then
-            echo "::error::Directory 't' with test files not found"
-            exit 1
-          fi
-
-          for file in t/*; do
-            echo "------------------------------------"
-            echo "Testing with file: $file"
-
-            # Создаём временный файл с "0" и именем тестового файла:
-            echo "0" > test_input.txt
-            echo "$file" >> test_input.txt
-
-            echo "==== DEBUG test_input.txt ===="
-            cat -A test_input.txt
-            echo "=============================="
-
-            # Теперь фидим это stdin
-            ./a.out < test_input.txt
-            status=$?
-            echo "Exit code: $status"
-
-            if [ $status -ne 0 ]; then
-              echo "::error::Test failed for $file"
-              exit 1
-            fi
-          done
-
-          echo "All tests passed successfully."
+        done
