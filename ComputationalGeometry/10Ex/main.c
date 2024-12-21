@@ -1,8 +1,10 @@
 #include "tools.h"
 #include "polygon.h"
+#include <time.h>
 
 int main(void) {
 	points ps;
+	int timer;
 	double shift;
 	polygon plgn, new_polygon;
 	FILE * file = getFile();
@@ -28,10 +30,13 @@ int main(void) {
 	}
 
 	printPolygon(plgn, "\nOriginal polygon:\n");
-
-	new_polygon = getPolygon(&plgn, shift);
 	
+	timer = -clock();
+	new_polygon = getPolygon(&plgn, shift);
+	timer += clock();
+
 	printPolygon(new_polygon, "\n\nNew polygon:\n");
+	printf("\nThe process took about %3.0lf seconds %3.0lf milliseconds", (double)timer / CLOCKS_PER_SEC, (double)(timer % CLOCKS_PER_SEC) / (CLOCKS_PER_SEC / 1000));
 
 	free(ps.arr);
 	free(new_polygon.pts.arr);
