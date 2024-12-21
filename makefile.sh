@@ -5,9 +5,17 @@ find . -type f -name "makefile" | while read -r file; do
 
     tmp_file=$(mktemp)
 
-    sed -e 's/a\.exe/\.\/a\.out/g' \
-        -e 's/\<del\>/rm/g' \
-        -e 's/\-lssp//g' "$file" > "$tmp_file"
+    if [ "$1" == "delete" ]; then
+        # Удаление строк с a.exe
+        sed -e '/a\.exe/d' \
+            -e 's/\<del\>/rm/g' \
+            -e 's/\-lssp//g' "$file" > "$tmp_file"
+    else
+        # Замена a.exe на ./a.out
+        sed -e 's/a\.exe/\.\/a\.out/g' \
+            -e 's/\<del\>/rm/g' \
+            -e 's/\-lssp//g' "$file" > "$tmp_file"
+    fi
 
     mv "$tmp_file" "$file"
     echo "File $file processed."
