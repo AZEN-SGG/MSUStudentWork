@@ -1,7 +1,7 @@
 #include "tools.h"
 
 points getPoints(void) {
-	int fileOrRandom;
+	int fileOrRandom = 5;
 	
 	printf("0 - if points from file\n1 - if random generation of points\nYour choice: ");
 	
