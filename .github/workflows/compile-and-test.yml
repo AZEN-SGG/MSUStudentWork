@@ -1,4 +1,4 @@
-name: Compile and Test
+name: Compile and Test on Linux
 
 on:
   push:
@@ -10,35 +10,38 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup MinGW and Make
+    - name: Make `makefile.sh` executable
       run: |
-        choco install mingw -y
-        choco install make -y
-        refreshenv
+        chmod +x makefile.sh
 
-    - name: Compile and Run Tests
+    - name: Compile using makefile.sh
       run: |
-        cd ComputationalGeometry/6Ex
-        make
+        ./makefile.sh
         if [ $? -ne 0 ]; then
-          echo "::error::Build failed"
+          echo "::error::Compilation failed"
           exit 1
         fi
 
-        # Найти все файлы в папке `t` и передать их в программу
-        for %f in (t\*) do (
-          echo "Testing with file: %f"
-          echo 0 > input.txt
-          echo %f >> input.txt
-          a.exe < input.txt
-          if %errorlevel% neq 0 (
-            echo "::error::Test failed for %f"
+    - name: Run Tests
+      run: |
+        cd ComputationalGeometry/6Ex
+        for file in t/*; do
+          echo "Testing with file: $file"
+
+          # Создаём файл ввода
+          echo "0" > input.txt
+          echo "$file" >> input.txt
+
+          # Запускаем программу
+          ./a.out < input.txt
+          if [ $? -ne 0 ]; then
+            echo "::error::Test failed for $file"
             exit 1
-          )
-        )
+          fi
+        done
