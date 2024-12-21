@@ -48,8 +48,12 @@ jobs:
         for file in t/*; do
           echo "Testing with file: $file"
 
-          # Создаём файл ввода
-          (echo "0"; echo "$file") | ./a.out
+          # Создаём временный файл для ввода
+          echo "0" > input.txt
+          echo "$file" >> input.txt
+
+          # Передаём ввод через файл
+          ./a.out < input.txt
           if [ $? -ne 0 ]; then
             echo "::error::Test failed for $file"
             exit 1
