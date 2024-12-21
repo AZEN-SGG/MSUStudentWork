@@ -7,6 +7,7 @@ points getPoints(void) {
 	
 	if (scanf("%d", &fileOrRandom) < 1) {
 		printf("Enter error!\n");
+		printf("Debug: fileOrRandom = %d\n", fileOrRandom);
 		return (points){NULL, 0};
 	}
 	
